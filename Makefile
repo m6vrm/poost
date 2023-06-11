@@ -107,6 +107,7 @@ lint/clang-tidy: $(CMAKE_CACHE) ## Run `clang-tidy`
 .PHONY: lint/codespell
 lint/codespell: ## Check spelling using `codespell`
 	codespell \
+		-L poost \
 		`git ls-files -- "*.md" "*.txt" "*.json" "*.yml" "Makefile"` \
 		`$(GIT_SOURCES)`
 
