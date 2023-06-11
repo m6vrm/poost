@@ -17,7 +17,9 @@ function(cgen_package_0)
         message(WARNING "Package external/doctest doesn't have CMakeLists.txt")
     endif()
 endfunction()
-cgen_package_0()
+if(PROJECT_IS_TOP_LEVEL)
+    cgen_package_0()
+endif()
 
 #
 # Targets

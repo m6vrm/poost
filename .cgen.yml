@@ -54,6 +54,7 @@ templates:
 
 packages:
   - external: external/doctest
+    if: PROJECT_IS_TOP_LEVEL
     url: https://github.com/doctest/doctest
     options:
       DOCTEST_NO_INSTALL: ON
