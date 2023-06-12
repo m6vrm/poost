@@ -2,11 +2,6 @@ project: poost
 
 templates:
   common:
-    includes:
-      public:
-        - include
-      private:
-        - include/poost
     properties:
       CXX_STANDARD: 20
       CXX_STANDARD_REQUIRED: ON
@@ -73,6 +68,11 @@ targets:
       - src/poost/log.cpp
 
       - include/poost/assert.hpp
+    includes:
+      public:
+        - include
+      private:
+        - include/poost
 
   - executable: poost_test
     if: PROJECT_IS_TOP_LEVEL
@@ -81,7 +81,9 @@ targets:
       - asan
       - ubsan
     sources:
-      - src/poost/args_test.cpp
+      - tests/args_test.cpp
+    includes:
+      - src/poost
     dependencies:
       - doctest::doctest_with_main
       - poost::poost

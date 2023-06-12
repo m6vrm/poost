@@ -64,13 +64,11 @@ function(cgen_target_poost_test)
     add_executable(poost_test)
     target_sources(poost_test
         PRIVATE
-            src/poost/args_test.cpp
+            tests/args_test.cpp
     )
     target_include_directories(poost_test
-        PUBLIC
-            include
         PRIVATE
-            include/poost
+            src/poost
     )
     target_link_libraries(poost_test
         PRIVATE
