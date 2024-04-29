@@ -1,7 +1,7 @@
-# Generated using cgen 0.1.0 — https://gitlab.com/madyanov/cgen
+# Generated using cgen 1.1.0 — https://gitlab.com/madyanov/cgen
 # DO NOT EDIT
 
-cmake_minimum_required(VERSION 3.24)
+cmake_minimum_required(VERSION 3.11)
 project(poost)
 
 #
@@ -26,7 +26,7 @@ endif()
 #
 
 # target poost
-function(cgen_target_poost)
+function(cgen_target_0)
     add_library(poost STATIC)
     add_library(poost::poost ALIAS poost)
     target_sources(poost
@@ -57,10 +57,10 @@ function(cgen_target_poost)
             >
     )
 endfunction()
-cgen_target_poost()
+cgen_target_0()
 
 # target poost_test
-function(cgen_target_poost_test)
+function(cgen_target_1)
     add_executable(poost_test)
     target_sources(poost_test
         PRIVATE
@@ -118,5 +118,5 @@ function(cgen_target_poost_test)
     )
 endfunction()
 if(PROJECT_IS_TOP_LEVEL)
-    cgen_target_poost_test()
+    cgen_target_1()
 endif()

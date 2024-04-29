@@ -16,7 +16,8 @@ template <> auto convert(const char *val) -> std::string { return val; }
 
 /// Public
 
-Args::Args(int argc, char *argv[]) : m_argi{0}, m_argc{argc - 1}, m_argv{&argv[1]} {}
+Args::Args(int argc, char *argv[])
+    : m_argi{0}, m_argc{argc - 1}, m_argv{&argv[1]} {}
 
 auto Args::option() -> char {
     while (has_args()) {
