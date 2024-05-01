@@ -66,7 +66,7 @@ check:
 		include \
 		tests \
 		Makefile \
-		README \
+		README.md \
 		LICENSE
 
 asan: export CMAKE_BUILD_TYPE=Asan
