@@ -13,8 +13,12 @@
         if (static_cast<int>(level) >= static_cast<int>(settings.log_level)) { \
             poost::log_print(settings, level, __FILE_NAME__, __LINE__,         \
                              __VA_ARGS__);                                     \
+                                                                               \
+            if (level == poost::LogLevel::Fatal) {                             \
+                std::exit(EXIT_FAILURE);                                       \
+            }                                                                  \
         }                                                                      \
-    } while (0)
+    } while (false)
 
 #define POOST_TRACE_EX(settings, ...)                                          \
     POOST_LOG(settings, poost::LogLevel::Trace, __VA_ARGS__)
@@ -27,9 +31,7 @@
 #define POOST_ERROR_EX(settings, ...)                                          \
     POOST_LOG(settings, poost::LogLevel::Error, __VA_ARGS__)
 #define POOST_FATAL_EX(settings, ...)                                          \
-    (POOST_LOG(settings, poost::LogLevel::Fatal, __VA_ARGS__),                 \
-     std::exit(EXIT_FAILURE)) // todo: shouldn't call std::exit to terminate,
-                              // but whatever
+    POOST_LOG(settings, poost::LogLevel::Fatal, __VA_ARGS__)
 
 #define POOST_TRACE(...) POOST_TRACE_EX(poost::log::main, __VA_ARGS__)
 #define POOST_DEBUG(...) POOST_DEBUG_EX(poost::log::main, __VA_ARGS__)
