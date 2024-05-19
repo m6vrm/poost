@@ -24,10 +24,6 @@ LogSettings main{
 void log_print(const LogSettings &settings, LogLevel level, const char *file,
                int line, const char *fmt, ...) {
 
-    if (static_cast<int>(level) < static_cast<int>(settings.log_level)) {
-        return;
-    }
-
     const char *label = log_level_label(level);
 
     if (settings.use_color) {
