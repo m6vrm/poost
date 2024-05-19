@@ -8,24 +8,26 @@
 #define __FILE_NAME__ __FILE__
 #endif // ifndef __FILE_NAME__
 
+#define POOST_LOG(settings, level, ...)                                        \
+    do {                                                                       \
+        if (static_cast<int>(level) >= static_cast<int>(settings.log_level)) { \
+            poost::log_print(settings, level, __FILE_NAME__, __LINE__,         \
+                             __VA_ARGS__);                                     \
+        }                                                                      \
+    } while (0)
+
 #define POOST_TRACE_EX(settings, ...)                                          \
-    poost::log_print(settings, poost::LogLevel::Trace, __FILE_NAME__,          \
-                     __LINE__, __VA_ARGS__)
+    POOST_LOG(settings, poost::LogLevel::Trace, __VA_ARGS__)
 #define POOST_DEBUG_EX(settings, ...)                                          \
-    poost::log_print(settings, poost::LogLevel::Debug, __FILE_NAME__,          \
-                     __LINE__, __VA_ARGS__)
+    POOST_LOG(settings, poost::LogLevel::Debug, __VA_ARGS__)
 #define POOST_INFO_EX(settings, ...)                                           \
-    poost::log_print(settings, poost::LogLevel::Info, __FILE_NAME__, __LINE__, \
-                     __VA_ARGS__)
+    POOST_LOG(settings, poost::LogLevel::Info, __VA_ARGS__)
 #define POOST_WARN_EX(settings, ...)                                           \
-    poost::log_print(settings, poost::LogLevel::Warn, __FILE_NAME__, __LINE__, \
-                     __VA_ARGS__)
+    POOST_LOG(settings, poost::LogLevel::Warn, __VA_ARGS__)
 #define POOST_ERROR_EX(settings, ...)                                          \
-    poost::log_print(settings, poost::LogLevel::Error, __FILE_NAME__,          \
-                     __LINE__, __VA_ARGS__)
+    POOST_LOG(settings, poost::LogLevel::Error, __VA_ARGS__)
 #define POOST_FATAL_EX(settings, ...)                                          \
-    (poost::log_print(settings, poost::LogLevel::Fatal, __FILE_NAME__,         \
-                      __LINE__, __VA_ARGS__),                                  \
+    (POOST_LOG(settings, poost::LogLevel::Fatal, __VA_ARGS__),                 \
      std::exit(EXIT_FAILURE)) // todo: shouldn't call std::exit to terminate,
                               // but whatever
 
