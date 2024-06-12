@@ -6,10 +6,10 @@
 #define POOST_ASSERT(cond, ...)                                                \
     do {                                                                       \
         if (!(cond)) {                                                         \
-            poost::log_print(poost::log::main, poost::LogLevel::Fatal,         \
+            poost::log_print(poost::log::global, poost::LogLevel::Fatal,       \
                              "%s:%d: assertion failure ( %s )", __FILE__,      \
                              __LINE__, #cond);                                 \
-            poost::log_print(poost::log_default, poost::LogLevel::Fatal,       \
+            poost::log_print(poost::log::global, poost::LogLevel::Fatal,       \
                              __VA_ARGS__);                                     \
             std::abort();                                                      \
         }                                                                      \
