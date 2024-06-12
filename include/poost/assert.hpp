@@ -2,7 +2,7 @@
 
 #ifndef NDEBUG
 #include <cstdlib>
-#include <log.hpp>
+#include <poost/log.hpp>
 #define POOST_ASSERT(cond, ...)                                                \
     do {                                                                       \
         if (!(cond)) {                                                         \
