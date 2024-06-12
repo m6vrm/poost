@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <args.hpp>
+#include <string>
 
 namespace poost {
 

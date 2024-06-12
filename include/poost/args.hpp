@@ -1,14 +1,11 @@
 #pragma once
 
-#include <string>
-#include <vector>
-
 namespace poost {
 
 namespace args {
 
 // special Args::option() return values
-// must be negative and fit in signed char
+// must be negative and fit in a signed char
 inline constexpr char end = -1;
 inline constexpr char not_an_option = -2;
 
