@@ -1,4 +1,4 @@
-# Generated using cgen 1.1.0 — https://gitlab.com/madyanov/cgen
+# Generated using cgen 1.1.1 — https://github.com/m6vrm/cgen
 # DO NOT EDIT
 
 cmake_minimum_required(VERSION 3.11)
@@ -14,7 +14,7 @@ function(cgen_package_0)
     if(EXISTS ${PROJECT_SOURCE_DIR}/external/doctest/CMakeLists.txt)
         add_subdirectory(external/doctest)
     else()
-        message(WARNING "Package external/doctest doesn't have CMakeLists.txt")
+        message(NOTICE "Package external/doctest doesn't have CMakeLists.txt")
     endif()
 endfunction()
 if(PROJECT_IS_TOP_LEVEL)
@@ -32,10 +32,10 @@ function(cgen_target_0)
     target_sources(poost
         PRIVATE
             include/poost/args.hpp
-            src/poost/args.cpp
-            include/poost/log.hpp
-            src/poost/log.cpp
             include/poost/assert.hpp
+            include/poost/log.hpp
+            src/poost/args.cpp
+            src/poost/log.cpp
     )
     target_include_directories(poost
         PUBLIC
@@ -65,9 +65,12 @@ function(cgen_target_1)
     target_sources(poost_test
         PRIVATE
             tests/args_test.cpp
+            tests/assert_test.cpp
+            tests/log_test.cpp
     )
     target_include_directories(poost_test
         PRIVATE
+            include/poost
             src/poost
     )
     target_link_libraries(poost_test

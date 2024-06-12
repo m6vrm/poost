@@ -1,12 +1,7 @@
-#include "args.hpp"
-
 #include <algorithm>
-
-// todo: write tests
+#include <args.hpp>
 
 namespace poost {
-
-/// Converters
 
 namespace args {
 
@@ -14,10 +9,8 @@ template <> auto convert(const char *val) -> std::string { return val; }
 
 } // namespace args
 
-/// Public
-
 Args::Args(int argc, char *argv[])
-    : m_argi{0}, m_argc{argc - 1}, m_argv{&argv[1]} {}
+    : argi_{0}, argc_{argc - 1}, argv_{&argv[1]} {}
 
 auto Args::option() -> char {
     while (has_args()) {
@@ -72,25 +65,23 @@ auto Args::value(char **val) -> bool {
     }
 
     // parse value and move to the next arg
-    *val = *m_argv;
+    *val = *argv_;
     skip_arg();
     return true;
 }
 
-auto Args::peek() const -> char * { return *m_argv; }
+auto Args::peek() const -> char * { return *argv_; }
 
-/// Private
+auto Args::is_first_char() const -> bool { return argi_ == 0; }
+auto Args::peek_char() const -> char { return (*argv_)[argi_]; }
+auto Args::next_char() -> char { return (*argv_)[argi_++]; }
 
-auto Args::is_first_char() const -> bool { return m_argi == 0; }
-auto Args::peek_char() const -> char { return (*m_argv)[m_argi]; }
-auto Args::next_char() -> char { return (*m_argv)[m_argi++]; }
-
-auto Args::has_args() const -> bool { return m_argc > 0; }
+auto Args::has_args() const -> bool { return argc_ > 0; }
 
 void Args::skip_arg() {
-    m_argi = 0;
-    --m_argc;
-    ++m_argv;
+    argi_ = 0;
+    --argc_;
+    ++argv_;
 }
 
 } // namespace poost

@@ -1,5 +1,4 @@
-#ifndef POOST_ARGS_HPP
-#define POOST_ARGS_HPP
+#pragma once
 
 #include <string>
 #include <vector>
@@ -28,9 +27,9 @@ class Args {
     template <typename T> auto value(T &val) -> bool;
 
   private:
-    int m_argi;
-    int m_argc;
-    char **m_argv;
+    int argi_;
+    int argc_;
+    char **argv_;
 
     auto is_first_char() const -> bool;
     auto peek_char() const -> char;
@@ -48,5 +47,3 @@ template <typename T> auto Args::value(T &val) -> bool {
 }
 
 } // namespace poost
-
-#endif // ifndef POOST_ARGS_HPP

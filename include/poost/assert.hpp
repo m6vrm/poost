@@ -1,17 +1,16 @@
-#ifndef POOST_ASSERT_HPP
-#define POOST_ASSERT_HPP
+#pragma once
 
 #ifndef NDEBUG
-#include "log.hpp"
 #include <cstdlib>
+#include <log.hpp>
 #define POOST_ASSERT(cond, ...)                                                \
     do {                                                                       \
         if (!(cond)) {                                                         \
             poost::log_print(poost::log::main, poost::LogLevel::Fatal,         \
-                             __FILE_NAME__, __LINE__,                          \
-                             "assertion failure ( %s )", #cond);               \
-            poost::log_print(poost::log::main, poost::LogLevel::Fatal,         \
-                             __FILE_NAME__, __LINE__, __VA_ARGS__);            \
+                             "%s:%d: assertion failure ( %s )", __FILE__,      \
+                             __LINE__, #cond);                                 \
+            poost::log_print(poost::log_default, poost::LogLevel::Fatal,       \
+                             __VA_ARGS__);                                     \
             std::abort();                                                      \
         }                                                                      \
     } while (false)
@@ -40,5 +39,3 @@ namespace poost {
 }
 
 } // namespace poost
-
-#endif // ifndef POOST_ASSERT_HPP

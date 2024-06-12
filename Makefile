@@ -1,9 +1,5 @@
-TARGET_TEST	= poost_test
 OUT			= build
-
-PREFIX		= /usr/local
-BINDIR		= $(PREFIX)/bin
-
+TESTS		= $(OUT)/poost_test
 SRC			= $(wildcard src/*/*.?pp) $(wildcard include/*/*.?pp)
 SRC_TEST	= $(wildcard tests/*.?pp)
 
@@ -13,26 +9,29 @@ release: build
 debug: export CMAKE_BUILD_TYPE=Debug
 debug: build
 
-build: $(OUT)/$(TARGET_TEST)
+build: $(TESTS)
 
-configure:
+CMakeLists.txt: .cgen.yml
+	-cgen -g
+
+configure: CMakeLists.txt
 	cmake \
 		-S . \
 		-B "$(OUT)" \
 		-G "Unix Makefiles" \
 		-D CMAKE_EXPORT_COMPILE_COMMANDS=ON
 
-$(OUT)/$(TARGET_TEST): configure $(SRC) $(SRC_TEST)
+$(TESTS): configure $(SRC) $(SRC_TEST)
 	cmake \
 		--build "$(OUT)" \
-		--target "$(TARGET_TEST)" \
+		--target "$(@F)" \
 		--parallel
 
 clean:
 	$(RM) -r "$(OUT)"
 
-test: $(OUT)/$(TARGET_TEST)
-	"./$(OUT)/$(TARGET_TEST)"
+test: $(TESTS)
+	"./$(OUT)/poost_test"
 
 format:
 	clang-format -i $(SRC) $(SRC_TEST)
@@ -67,7 +66,8 @@ check:
 		tests \
 		Makefile \
 		README.md \
-		LICENSE
+		LICENSE \
+		.cgen.yml
 
 asan: export CMAKE_BUILD_TYPE=Asan
 asan: test

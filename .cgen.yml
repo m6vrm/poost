@@ -62,12 +62,10 @@ targets:
       - poost::poost
     sources:
       - include/poost/args.hpp
-      - src/poost/args.cpp
-
-      - include/poost/log.hpp
-      - src/poost/log.cpp
-
       - include/poost/assert.hpp
+      - include/poost/log.hpp
+      - src/poost/args.cpp
+      - src/poost/log.cpp
     includes:
       public:
         - include
@@ -77,12 +75,15 @@ targets:
   - executable: poost_test
     if: PROJECT_IS_TOP_LEVEL
     templates:
-      - common
       - asan
+      - common
       - ubsan
     sources:
       - tests/args_test.cpp
+      - tests/assert_test.cpp
+      - tests/log_test.cpp
     includes:
+      - include/poost
       - src/poost
     dependencies:
       - doctest::doctest_with_main
