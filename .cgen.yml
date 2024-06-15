@@ -63,8 +63,10 @@ targets:
     sources:
       - include/poost/args.hpp
       - include/poost/assert.hpp
+      - include/poost/config.hpp
       - include/poost/log.hpp
       - src/poost/args.cpp
+      - src/poost/config.cpp
       - src/poost/log.cpp
     includes:
       public:
@@ -81,6 +83,7 @@ targets:
     sources:
       - tests/args_test.cpp
       - tests/assert_test.cpp
+      - tests/config_test.cpp
       - tests/log_test.cpp
     includes:
       - include/poost

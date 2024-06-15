@@ -51,7 +51,6 @@ check:
 		--suppress=missingIncludeSystem \
 		--suppress=unusedStructMember \
 		--suppress=unusedFunction \
-		--suppress=useStlAlgorithm \
 		$(SRC) $(SRC_TEST)
 
 	clang-tidy \

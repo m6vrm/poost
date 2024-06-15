@@ -1,4 +1,6 @@
 #include <cstdarg>
+#include <cstdio>
+#include <iostream>
 #include <log.hpp>
 
 namespace poost {
@@ -6,44 +8,65 @@ namespace poost {
 namespace log {
 
 LogSettings global{
-    .stream = stderr,
+    .stream = std::cerr,
     .log_level = LogLevel::Info,
     .use_colors = true,
 };
 
 } // namespace log
 
-auto log_level_label(LogLevel level) -> const char *;
-auto log_level_color(LogLevel level) -> const char *;
+static auto log_level_label(LogLevel level) -> const char *;
+static auto log_level_color(LogLevel level) -> const char *;
 
 void log_print(const LogSettings &settings, LogLevel level, const char *fmt,
                ...) {
 
+    char buf[1024];
+    char *cur = buf;
+    const char *end = buf + sizeof(buf);
+
     const char *label = log_level_label(level);
 
     if (!settings.use_colors) {
-        std::fprintf(settings.stream, "[%-5s] ", label);
+        cur += std::snprintf(cur, end - cur, "[%-5s] ", label);
     } else {
         const char *color = log_level_color(level);
-        std::fprintf(settings.stream, "%s[%-5s]\x1b[0m ", color, label);
+        cur += std::snprintf(buf, end - cur, "%s[%-5s]\x1b[0m ", color, label);
     }
 
-    va_list ap;
-    va_start(ap, fmt);
-    std::vfprintf(settings.stream, fmt,
-                  ap); // NOLINT(clang-analyzer-valist.Uninitialized)
-    va_end(ap);
+    if (cur < end) {
+        va_list ap;
+        va_start(ap, fmt);
+        cur +=
+            std::vsnprintf(cur, end - cur, fmt,
+                           ap); // NOLINT(clang-analyzer-valist.Uninitialized)
+        va_end(ap);
+    }
 
-    std::fprintf(settings.stream, "\n");
+    if (cur < end) {
+        std::snprintf(cur, end - cur, "%s", "\n");
+    }
+
+    buf[sizeof(buf) - 1] = '\n';
+    settings.stream << buf;
 }
 
-auto log_level_label(LogLevel level) -> const char * {
-    static const char *level_strings[] = {"",     "TRACE", "DEBUG", "INFO",
-                                          "WARN", "ERROR", "FATAL", ""};
+static auto log_level_label(LogLevel level) -> const char * {
+    static const char *level_strings[] = {
+        "",      //
+        "TRACE", //
+        "DEBUG", //
+        "INFO",  //
+        "WARN",  //
+        "ERROR", //
+        "FATAL", //
+        ""       //
+    };
+
     return level_strings[static_cast<int>(level)];
 }
 
-auto log_level_color(LogLevel level) -> const char * {
+static auto log_level_color(LogLevel level) -> const char * {
     static const char *level_colors[] = {
         "",         //
         "\x1b[37m", // TRACE = white

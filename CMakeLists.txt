@@ -33,8 +33,10 @@ function(cgen_target_0)
         PRIVATE
             include/poost/args.hpp
             include/poost/assert.hpp
+            include/poost/config.hpp
             include/poost/log.hpp
             src/poost/args.cpp
+            src/poost/config.cpp
             src/poost/log.cpp
     )
     target_include_directories(poost
@@ -66,6 +68,7 @@ function(cgen_target_1)
         PRIVATE
             tests/args_test.cpp
             tests/assert_test.cpp
+            tests/config_test.cpp
             tests/log_test.cpp
     )
     target_include_directories(poost_test

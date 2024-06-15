@@ -4,15 +4,6 @@
 
 namespace poost {
 
-namespace args {
-
-template <> auto convert(const char *val) -> std::string { return val; }
-
-} // namespace args
-
-Args::Args(int argc, char *argv[])
-    : argi_{0}, argc_{argc - 1}, argv_{&argv[1]} {}
-
 auto Args::option() -> char {
     while (has_args()) {
         const bool is_first = is_first_char();
@@ -45,7 +36,7 @@ auto Args::option() -> char {
     return args::end;
 }
 
-auto Args::value(char **val) -> bool {
+auto Args::value(const char **val) -> bool {
     if (!is_first_char()) {
         // inside option group
         if (peek_char() == '\0') {
@@ -71,7 +62,7 @@ auto Args::value(char **val) -> bool {
     return true;
 }
 
-auto Args::peek() const -> char * { return *argv_; }
+auto Args::peek() const -> const char * { return *argv_; }
 
 auto Args::is_first_char() const -> bool { return argi_ == 0; }
 auto Args::peek_char() const -> char { return (*argv_)[argi_]; }
