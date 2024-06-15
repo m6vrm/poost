@@ -15,12 +15,14 @@ TEST_CASE("log level labels") {
     POOST_DEBUG_EX(log_settings, "Hello");
     POOST_WARN_EX(log_settings, "Hello");
     POOST_ERROR_EX(log_settings, "Hello");
+    poost::log_print(log_settings, poost::LogLevel::Fatal, "Hello");
 
     CHECK(oss.str() == "[TRACE] Hello\n"
                        "[INFO ] Hello\n"
                        "[DEBUG] Hello\n"
                        "[WARN ] Hello\n"
-                       "[ERROR] Hello\n");
+                       "[ERROR] Hello\n"
+                       "[FATAL] Hello\n");
 }
 
 TEST_CASE("log level colors") {
@@ -36,10 +38,12 @@ TEST_CASE("log level colors") {
     POOST_DEBUG_EX(log_settings, "Hello");
     POOST_WARN_EX(log_settings, "Hello");
     POOST_ERROR_EX(log_settings, "Hello");
+    poost::log_print(log_settings, poost::LogLevel::Fatal, "Hello");
 
     CHECK(oss.str() == "\x1b[37m[TRACE]\x1b[0m Hello\n"
                        "\x1b[32m[INFO ]\x1b[0m Hello\n"
                        "\x1b[34m[DEBUG]\x1b[0m Hello\n"
                        "\x1b[33m[WARN ]\x1b[0m Hello\n"
-                       "\x1b[31m[ERROR]\x1b[0m Hello\n");
+                       "\x1b[31m[ERROR]\x1b[0m Hello\n"
+                       "\x1b[35m[FATAL]\x1b[0m Hello\n");
 }

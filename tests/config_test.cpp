@@ -5,11 +5,11 @@
 TEST_CASE("config parsing") {
     std::istringstream iss{R"(
     # comment
-    key1 value1
+    key1    value1
 
     # comment 2
-    key2 "some value 2"
-    key3 42
+    key2    "some value 2"
+    key3    42
     )"};
 
     poost::Config config;
