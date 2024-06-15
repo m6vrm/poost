@@ -48,7 +48,7 @@ void log_print(const LogSettings &settings, LogLevel level, const char *fmt,
     }
 
     buf[sizeof(buf) - 1] = '\n';
-    settings.stream << buf;
+    settings.stream.get() << buf;
 }
 
 static auto log_level_label(LogLevel level) -> const char * {

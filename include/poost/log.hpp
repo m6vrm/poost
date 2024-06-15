@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdlib>
+#include <functional>
 #include <ostream>
 
 #define POOST_TRACE(...) POOST_TRACE_EX(poost::log::global, __VA_ARGS__)
@@ -50,7 +51,7 @@ enum class LogLevel {
 };
 
 struct LogSettings {
-    std::ostream &stream;
+    std::reference_wrapper<std::ostream> stream;
     LogLevel log_level;
     bool use_colors;
 };
