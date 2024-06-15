@@ -1,8 +1,9 @@
 #include <config.hpp>
+#include <iomanip>
 
 namespace poost {
 
-void config::load(std::istream &is) {
+void Config::load(std::istream &is) {
     std::string line;
     while (std::getline(is, line)) {
         std::size_t found = line.find("#");
@@ -14,7 +15,7 @@ void config::load(std::istream &is) {
         std::string key;
         std::string value;
 
-        if (iss >> key >> value) {
+        if (iss >> key >> std::quoted(value)) {
             config_.emplace(key, value);
         }
     }
