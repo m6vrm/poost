@@ -8,7 +8,7 @@ namespace poost {
 namespace log {
 
 LogSettings global{
-    .stream = std::cerr,
+    .stream = &std::cerr,
     .log_level = LogLevel::Info,
     .use_colors = true,
 };
@@ -48,7 +48,7 @@ void log_print(const LogSettings &settings, LogLevel level, const char *fmt,
     }
 
     buf[sizeof(buf) - 1] = '\n';
-    settings.stream.get() << buf;
+    *settings.stream << buf;
 }
 
 static auto log_level_label(LogLevel level) -> const char * {

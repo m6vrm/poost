@@ -5,7 +5,7 @@
 TEST_CASE("log level labels") {
     std::ostringstream oss;
     poost::LogSettings log_settings{
-        .stream = oss,
+        .stream = &oss,
         .log_level = poost::LogLevel::All,
         .use_colors = false,
     };
@@ -26,7 +26,7 @@ TEST_CASE("log level labels") {
 TEST_CASE("log level colors") {
     std::ostringstream oss;
     poost::LogSettings log_settings{
-        .stream = oss,
+        .stream = &oss,
         .log_level = poost::LogLevel::All,
         .use_colors = true,
     };
