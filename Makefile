@@ -1,7 +1,7 @@
 OUT			= build
 TESTS		= $(OUT)/poost_test
 SRC			= $(wildcard src/*/*.?pp) $(wildcard include/*/*.?pp)
-SRC_TEST	= $(wildcard tests/*.?pp)
+SRC_TESTS	= $(wildcard tests/*.?pp)
 
 release: export CMAKE_BUILD_TYPE=Release
 release: build
@@ -21,7 +21,7 @@ configure: CMakeLists.txt
 		-G "Unix Makefiles" \
 		-D CMAKE_EXPORT_COMPILE_COMMANDS=ON
 
-$(TESTS): configure $(SRC) $(SRC_TEST)
+$(TESTS): configure $(SRC) $(SRC_TESTS)
 	cmake \
 		--build "$(OUT)" \
 		--target "$(@F)" \
@@ -34,7 +34,7 @@ test: $(TESTS)
 	"./$(OUT)/poost_test"
 
 format:
-	clang-format -i $(SRC) $(SRC_TEST)
+	clang-format -i $(SRC) $(SRC_TESTS)
 
 check:
 	cppcheck \
@@ -51,12 +51,12 @@ check:
 		--suppress=missingIncludeSystem \
 		--suppress=unusedStructMember \
 		--suppress=unusedFunction \
-		$(SRC) $(SRC_TEST)
+		$(SRC) $(SRC_TESTS)
 
 	clang-tidy \
 		-p="$(OUT)" \
 		--warnings-as-errors=* \
-		$(SRC) $(SRC_TEST)
+		$(SRC) $(SRC_TESTS)
 
 	codespell \
 		-L poost \
