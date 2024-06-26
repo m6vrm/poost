@@ -54,6 +54,11 @@ packages:
     options:
       DOCTEST_NO_INSTALL: ON
 
+  - external: externa/fmt
+    url: https://github.com/fmtlib/fmt
+    options:
+      FMT_INSTALL: OFF
+
 targets:
   - library: poost
     templates:
@@ -73,6 +78,9 @@ targets:
         - include
       private:
         - include/poost
+    dependencies:
+      public:
+        - fmt::fmt
 
   - executable: poost_test
     if: PROJECT_IS_TOP_LEVEL

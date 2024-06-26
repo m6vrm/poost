@@ -21,6 +21,17 @@ if(PROJECT_IS_TOP_LEVEL)
     cgen_package_0()
 endif()
 
+# package externa/fmt
+function(cgen_package_1)
+    set(FMT_INSTALL OFF CACHE INTERNAL "" FORCE)
+    if(EXISTS ${PROJECT_SOURCE_DIR}/externa/fmt/CMakeLists.txt)
+        add_subdirectory(externa/fmt)
+    else()
+        message(NOTICE "Package externa/fmt doesn't have CMakeLists.txt")
+    endif()
+endfunction()
+cgen_package_1()
+
 #
 # Targets
 #
@@ -44,6 +55,10 @@ function(cgen_target_0)
             include
         PRIVATE
             include/poost
+    )
+    target_link_libraries(poost
+        PUBLIC
+            fmt::fmt
     )
     set_target_properties(poost PROPERTIES
         CXX_STANDARD 20

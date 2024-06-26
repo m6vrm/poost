@@ -1,3 +1,6 @@
 [submodule "external/doctest"]
 	path = external/doctest
 	url = https://github.com/doctest/doctest
+[submodule "externa/fmt"]
+	path = externa/fmt
+	url = https://github.com/fmtlib/fmt
