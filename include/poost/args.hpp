@@ -15,7 +15,8 @@ inline constexpr char not_an_option = -2;
 
 class Args {
   public:
-    Args(int argc, const char **argv) : argi_{0}, argc_{argc - 1}, argv_{&argv[1]} {}
+    Args(int argc, const char **argv)
+        : argi_{0}, argc_{argc - 1}, argv_{&argv[1]} {}
 
     char option();
     bool value(const char **val);

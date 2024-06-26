@@ -13,22 +13,28 @@
 
 #define POOST_LOG(...) POOST_LOG_EX(poost::log::global, __VA_ARGS__)
 
-#define POOST_TRACE_EX(settings, ...) POOST_LOG_EX(settings, poost::LogLevel::Trace, __VA_ARGS__)
-#define POOST_DEBUG_EX(settings, ...) POOST_LOG_EX(settings, poost::LogLevel::Debug, __VA_ARGS__)
-#define POOST_INFO_EX(settings, ...) POOST_LOG_EX(settings, poost::LogLevel::Info, __VA_ARGS__)
-#define POOST_WARN_EX(settings, ...) POOST_LOG_EX(settings, poost::LogLevel::Warn, __VA_ARGS__)
-#define POOST_ERROR_EX(settings, ...) POOST_LOG_EX(settings, poost::LogLevel::Error, __VA_ARGS__)
-#define POOST_FATAL_EX(settings, ...) POOST_LOG_EX(settings, poost::LogLevel::Fatal, __VA_ARGS__)
+#define POOST_TRACE_EX(settings, ...)                                          \
+    POOST_LOG_EX(settings, poost::LogLevel::Trace, __VA_ARGS__)
+#define POOST_DEBUG_EX(settings, ...)                                          \
+    POOST_LOG_EX(settings, poost::LogLevel::Debug, __VA_ARGS__)
+#define POOST_INFO_EX(settings, ...)                                           \
+    POOST_LOG_EX(settings, poost::LogLevel::Info, __VA_ARGS__)
+#define POOST_WARN_EX(settings, ...)                                           \
+    POOST_LOG_EX(settings, poost::LogLevel::Warn, __VA_ARGS__)
+#define POOST_ERROR_EX(settings, ...)                                          \
+    POOST_LOG_EX(settings, poost::LogLevel::Error, __VA_ARGS__)
+#define POOST_FATAL_EX(settings, ...)                                          \
+    POOST_LOG_EX(settings, poost::LogLevel::Fatal, __VA_ARGS__)
 
-#define POOST_LOG_EX(settings, level, ...)                                                         \
-    do {                                                                                           \
-        if ((level) >= (settings).log_level) {                                                     \
-            poost::log_print((settings), (level), __VA_ARGS__);                                    \
-                                                                                                   \
-            if ((level) == poost::LogLevel::Fatal) {                                               \
-                std::abort();                                                                      \
-            }                                                                                      \
-        }                                                                                          \
+#define POOST_LOG_EX(settings, level, ...)                                     \
+    do {                                                                       \
+        if ((level) >= (settings).log_level) {                                 \
+            poost::log_print((settings), (level), __VA_ARGS__);                \
+                                                                               \
+            if ((level) == poost::LogLevel::Fatal) {                           \
+                std::abort();                                                  \
+            }                                                                  \
+        }                                                                      \
     } while (false)
 
 namespace poost {
@@ -60,8 +66,8 @@ const char *log_level_label(LogLevel level);
 const char *log_level_color(LogLevel level);
 
 template <typename... Args>
-void log_print(const LogSettings &settings, LogLevel level, std::format_string<Args...> format,
-               Args &&...args) {
+void log_print(const LogSettings &settings, LogLevel level,
+               std::format_string<Args...> format, Args &&...args) {
 
     const char *label = log_level_label(level);
 
@@ -72,7 +78,8 @@ void log_print(const LogSettings &settings, LogLevel level, std::format_string<A
         *settings.stream << std::format("{}[{:<5}]\x1b[0m ", color, label);
     }
 
-    *settings.stream << std::format(format, std::forward<Args>(args)...) << "\n";
+    *settings.stream << std::format(format, std::forward<Args>(args)...)
+                     << "\n";
 }
 
 } // namespace poost

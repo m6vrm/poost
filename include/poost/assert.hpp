@@ -3,23 +3,25 @@
 #ifndef NDEBUG
 #include <cstdlib>
 #include <poost/log.hpp>
-#define POOST_ASSERT(cond, ...)                                                                    \
-    do {                                                                                           \
-        if (!(cond)) {                                                                             \
-            poost::log_print(poost::log::global, poost::LogLevel::Fatal,                           \
-                             "%s:%d: assertion failure ( %s )", __FILE__, __LINE__, #cond);        \
-            poost::log_print(poost::log::global, poost::LogLevel::Fatal, __VA_ARGS__);             \
-            std::abort();                                                                          \
-        }                                                                                          \
+#define POOST_ASSERT(cond, ...)                                                \
+    do {                                                                       \
+        if (!(cond)) {                                                         \
+            poost::log_print(poost::log::global, poost::LogLevel::Fatal,       \
+                             "%s:%d: assertion failure ( %s )", __FILE__,      \
+                             __LINE__, #cond);                                 \
+            poost::log_print(poost::log::global, poost::LogLevel::Fatal,       \
+                             __VA_ARGS__);                                     \
+            std::abort();                                                      \
+        }                                                                      \
     } while (false)
 #else // ifndef NDEBUG
 #define POOST_ASSERT(cond, ...)
 #endif // ifndef NDEBUG
 
-#define POOST_ASSERT_FAIL(...)                                                                     \
-    do {                                                                                           \
-        POOST_ASSERT(false, __VA_ARGS__);                                                          \
-        poost::unreachable();                                                                      \
+#define POOST_ASSERT_FAIL(...)                                                 \
+    do {                                                                       \
+        POOST_ASSERT(false, __VA_ARGS__);                                      \
+        poost::unreachable();                                                  \
     } while (false)
 
 namespace poost {
