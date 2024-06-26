@@ -7,7 +7,7 @@
     do {                                                                       \
         if (!(cond)) {                                                         \
             poost::log_print(poost::log::global, poost::LogLevel::Fatal,       \
-                             "%s:%d: assertion failure ( %s )", __FILE__,      \
+                             "{}:{}: assertion failure ( {} )", __FILE__,      \
                              __LINE__, #cond);                                 \
             poost::log_print(poost::log::global, poost::LogLevel::Fatal,       \
                              __VA_ARGS__);                                     \
