@@ -1,8 +1,8 @@
 #pragma once
 
 #include <cstdlib>
-#include <fmt/format.h>
 #include <ostream>
+#include <poost/format.hpp>
 
 #define POOST_TRACE(...) POOST_TRACE_EX(poost::log::global, __VA_ARGS__)
 #define POOST_DEBUG(...) POOST_DEBUG_EX(poost::log::global, __VA_ARGS__)

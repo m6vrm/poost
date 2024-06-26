@@ -45,6 +45,7 @@ function(cgen_target_0)
             include/poost/args.hpp
             include/poost/assert.hpp
             include/poost/config.hpp
+            include/poost/format.hpp
             include/poost/log.hpp
             src/poost/args.cpp
             src/poost/config.cpp
