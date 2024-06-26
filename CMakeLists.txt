@@ -21,13 +21,13 @@ if(PROJECT_IS_TOP_LEVEL)
     cgen_package_0()
 endif()
 
-# package externa/fmt
+# package external/fmt
 function(cgen_package_1)
     set(FMT_INSTALL OFF CACHE INTERNAL "" FORCE)
-    if(EXISTS ${PROJECT_SOURCE_DIR}/externa/fmt/CMakeLists.txt)
-        add_subdirectory(externa/fmt)
+    if(EXISTS ${PROJECT_SOURCE_DIR}/external/fmt/CMakeLists.txt)
+        add_subdirectory(external/fmt)
     else()
-        message(NOTICE "Package externa/fmt doesn't have CMakeLists.txt")
+        message(NOTICE "Package external/fmt doesn't have CMakeLists.txt")
     endif()
 endfunction()
 cgen_package_1()
