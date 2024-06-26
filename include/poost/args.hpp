@@ -15,38 +15,35 @@ inline constexpr char not_an_option = -2;
 
 class Args {
   public:
-    Args(int argc, const char **argv)
-        : argi_{0}, argc_{argc - 1}, argv_{&argv[1]} {}
+    Args(int argc, const char **argv) : argi_{0}, argc_{argc - 1}, argv_{&argv[1]} {}
 
-    auto option() -> char;
-    auto value(const char **val) -> bool;
-    auto peek() const -> const char *;
+    char option();
+    bool value(const char **val);
+    const char *peek() const;
 
-    template <typename T> auto value(T &val) -> bool;
+    template <typename T> bool value(T &val) {
+        const char *c_str;
+
+        const bool result = value(&c_str);
+        if (result) {
+            std::stringstream ss{c_str};
+            ss >> val;
+        }
+
+        return result;
+    }
 
   private:
     int argi_;
     int argc_;
     const char **argv_;
 
-    auto is_first_char() const -> bool;
-    auto peek_char() const -> char;
-    auto next_char() -> char;
+    bool is_first_char() const;
+    char peek_char() const;
+    char next_char();
 
-    auto has_args() const -> bool;
+    bool has_args() const;
     void skip_arg();
 };
-
-template <typename T> auto Args::value(T &val) -> bool {
-    const char *c_str;
-
-    const bool result = value(&c_str);
-    if (result) {
-        std::stringstream ss{c_str};
-        ss >> val;
-    }
-
-    return result;
-}
 
 } // namespace poost

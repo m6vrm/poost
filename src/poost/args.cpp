@@ -4,7 +4,7 @@
 
 namespace poost {
 
-auto Args::option() -> char {
+char Args::option() {
     while (has_args()) {
         const bool is_first = is_first_char();
         const char c = next_char();
@@ -36,7 +36,7 @@ auto Args::option() -> char {
     return args::end;
 }
 
-auto Args::value(const char **val) -> bool {
+bool Args::value(const char **val) {
     if (!is_first_char()) {
         // inside option group
         if (peek_char() == '\0') {
@@ -62,13 +62,13 @@ auto Args::value(const char **val) -> bool {
     return true;
 }
 
-auto Args::peek() const -> const char * { return *argv_; }
+const char *Args::peek() const { return *argv_; }
 
-auto Args::is_first_char() const -> bool { return argi_ == 0; }
-auto Args::peek_char() const -> char { return (*argv_)[argi_]; }
-auto Args::next_char() -> char { return (*argv_)[argi_++]; }
+bool Args::is_first_char() const { return argi_ == 0; }
+char Args::peek_char() const { return (*argv_)[argi_]; }
+char Args::next_char() { return (*argv_)[argi_++]; }
 
-auto Args::has_args() const -> bool { return argc_ > 0; }
+bool Args::has_args() const { return argc_ > 0; }
 
 void Args::skip_arg() {
     argi_ = 0;
