@@ -9,6 +9,7 @@ LogSettings global{
     .stream = &std::cerr,
     .log_level = LogLevel::INFO,
     .use_colors = true,
+    .print_location = false,
 };
 
 }  // namespace log

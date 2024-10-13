@@ -54,6 +54,7 @@ struct LogSettings {
     std::ostream* stream;
     LogLevel log_level;
     bool use_colors;
+    bool print_location;
 };
 
 namespace log {
@@ -77,8 +78,11 @@ void log_print(const LogSettings& settings,
         *settings.stream << log_level_color(level);
     }
 
-    *settings.stream << fmt::format("[{:<5}] {}({}) {}:", log_level_label(level), file, line,
-                                    function);
+    *settings.stream << fmt::format("[{:<5}]", log_level_label(level));
+
+    if (settings.print_location) {
+        *settings.stream << fmt::format(" {}({}) {}:", file, line, function);
+    }
 
     if (settings.use_colors) {
         *settings.stream << "\x1b[0m";
