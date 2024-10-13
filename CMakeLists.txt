@@ -83,6 +83,7 @@ function(cgen_target_1)
     target_sources(poost_test
         PRIVATE
             tests/args_test.cpp
+            tests/assert_test.cpp
             tests/config_test.cpp
             tests/log_test.cpp
     )

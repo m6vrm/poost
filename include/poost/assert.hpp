@@ -5,14 +5,15 @@
 #ifndef NDEBUG
 #include <cstdlib>
 #include <poost/log.hpp>
-#define POOST_ASSERT(condition, ...)                                                               \
-    do {                                                                                           \
-        if (!(condition)) {                                                                        \
-            poost::log_print(poost::log::global, poost::LogLevel::FATAL, "assertion failure ({})", \
-                             __FILE_NAME__, __LINE__, __FUNCTION__, #condition);                   \
-            poost::log_print(poost::log::global, poost::LogLevel::FATAL, __VA_ARGS__);             \
-            std::abort();                                                                          \
-        }                                                                                          \
+#define POOST_ASSERT(condition, ...)                                                              \
+    do {                                                                                          \
+        if (!(condition)) {                                                                       \
+            poost::log_print(poost::log::global, poost::LogLevel::FATAL, __FILE_NAME__, __LINE__, \
+                             __FUNCTION__, "assertion failure ({})", #condition);                 \
+            poost::log_print(poost::log::global, poost::LogLevel::FATAL, __FILE_NAME__, __LINE__, \
+                             __FUNCTION__, __VA_ARGS__);                                          \
+            std::abort();                                                                         \
+        }                                                                                         \
     } while (false)
 #else
 #define POOST_ASSERT(cond, ...)

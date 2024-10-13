@@ -91,6 +91,7 @@ targets:
       - ubsan
     sources:
       - tests/args_test.cpp
+      - tests/assert_test.cpp
       - tests/config_test.cpp
       - tests/log_test.cpp
     includes:
