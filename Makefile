@@ -40,7 +40,7 @@ check:
 	cppcheck \
 		--cppcheck-build-dir="$(OUT)" \
 		--language=c++ \
-		--std=c++20 \
+		--std=c++23 \
 		--enable=all \
 		--check-level=exhaustive \
 		--inconclusive \
