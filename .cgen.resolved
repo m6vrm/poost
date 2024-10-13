@@ -1,3 +1,3 @@
 format	1
 s	"external/doctest"	https://github.com/doctest/doctest	ae7a13539fb71f270b87eb2e874fbac80bc8dda2	HEAD
-s	"external/fmt"	https://github.com/fmtlib/fmt	bbf44cc000531dc7737d5321ccfa9f2f11b20127	HEAD
+s	"external/fmt"	https://github.com/fmtlib/fmt	4046f9727892a9a1baeef00cb20211ee062efa16	HEAD
