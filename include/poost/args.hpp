@@ -11,33 +11,32 @@ namespace args {
 inline constexpr char end = -1;
 inline constexpr char not_an_option = -2;
 
-} // namespace args
+}  // namespace args
 
 class Args {
-  public:
-    Args(int argc, const char **argv)
-        : argi_{0}, argc_{argc - 1}, argv_{&argv[1]} {}
+   public:
+    Args(int argc, const char** argv) : argi_{0}, argc_{argc - 1}, argv_{&argv[1]} {}
 
     char option();
-    bool value(const char **val);
-    const char *peek() const;
+    bool value(const char** result);
+    const char* peek() const;
 
-    template <typename T> bool value(T &val) {
-        const char *c_str;
-
-        const bool result = value(&c_str);
-        if (result) {
-            std::stringstream ss{c_str};
-            ss >> val;
+    template <typename T>
+    bool value(T& result) {
+        const char* c_string;
+        bool is_parsed = value(&c_string);
+        if (is_parsed) {
+            std::stringstream ss{c_string};
+            ss >> result;
         }
 
-        return result;
+        return is_parsed;
     }
 
-  private:
+   private:
     int argi_;
     int argc_;
-    const char **argv_;
+    const char** argv_;
 
     bool is_first_char() const;
     char peek_char() const;
@@ -47,4 +46,4 @@ class Args {
     void skip_arg();
 };
 
-} // namespace poost
+}  // namespace poost

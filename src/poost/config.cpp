@@ -3,7 +3,7 @@
 
 namespace poost {
 
-void Config::load(std::istream &is) {
+Config::Config(std::istream& is) {
     std::string line;
     while (std::getline(is, line)) {
         std::size_t found = line.find("#");
@@ -14,11 +14,10 @@ void Config::load(std::istream &is) {
         std::istringstream iss{line};
         std::string key;
         std::string value;
-
         if (iss >> key >> std::quoted(value)) {
-            config_.emplace(key, value);
+            config_.emplace_back(key, value);
         }
     }
 }
 
-} // namespace poost
+}  // namespace poost

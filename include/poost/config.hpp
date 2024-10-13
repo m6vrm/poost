@@ -3,32 +3,43 @@
 #include <istream>
 #include <sstream>
 #include <string>
-#include <unordered_map>
+#include <type_traits>
+#include <utility>
+#include <vector>
 
 namespace poost {
 
 class Config {
-  public:
-    void load(std::istream &is);
+   public:
+    explicit Config(std::istream& is);
 
-    template <typename T> T value(const std::string &key, const T &default_) {
-        const auto found = config_.find(key);
-        if (found == config_.end()) {
-            return default_;
+    template <typename T>
+    T value(const std::string& key, const T& fallback) {
+        for (auto& [config_key, config_value] : config_) {
+            if (config_key != key) {
+                continue;
+            }
+
+            if constexpr (std::is_same_v<T, std::string>) {
+                return config_value;
+            } else {
+                return convert<T>(config_value);
+            }
         }
 
-        if constexpr (std::is_same_v<T, std::string>) {
-            return found->second;
-        }
+        return fallback;
+    }
 
+   private:
+    template <typename T>
+    T convert(const std::string& string) {
         T result;
-        std::istringstream iss{found->second};
+        std::istringstream iss{string};
         iss >> result;
         return result;
     }
 
-  private:
-    std::unordered_map<std::string, std::string> config_;
+    std::vector<std::pair<std::string, std::string>> config_;
 };
 
-} // namespace poost
+}  // namespace poost

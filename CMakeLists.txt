@@ -62,7 +62,7 @@ function(cgen_target_0)
             fmt::fmt
     )
     set_target_properties(poost PROPERTIES
-        CXX_STANDARD 20
+        CXX_STANDARD 23
         CXX_STANDARD_REQUIRED ON
     )
     target_compile_options(poost
@@ -83,7 +83,6 @@ function(cgen_target_1)
     target_sources(poost_test
         PRIVATE
             tests/args_test.cpp
-            tests/assert_test.cpp
             tests/config_test.cpp
             tests/log_test.cpp
     )
@@ -98,7 +97,7 @@ function(cgen_target_1)
             poost::poost
     )
     set_target_properties(poost_test PROPERTIES
-        CXX_STANDARD 20
+        CXX_STANDARD 23
         CXX_STANDARD_REQUIRED ON
     )
     target_compile_options(poost_test

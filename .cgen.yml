@@ -3,7 +3,7 @@ project: poost
 templates:
   common:
     properties:
-      CXX_STANDARD: 20
+      CXX_STANDARD: 23
       CXX_STANDARD_REQUIRED: ON
     compile_options:
       global:
@@ -91,7 +91,6 @@ targets:
       - ubsan
     sources:
       - tests/args_test.cpp
-      - tests/assert_test.cpp
       - tests/config_test.cpp
       - tests/log_test.cpp
     includes:

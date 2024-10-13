@@ -2,7 +2,8 @@
 
 #include <cstdlib>
 #include <ostream>
-#include <poost/format.hpp>
+#include <string_view>
+#include "format.hpp"
 
 #define POOST_TRACE(...) POOST_TRACE_EX(poost::log::global, __VA_ARGS__)
 #define POOST_DEBUG(...) POOST_DEBUG_EX(poost::log::global, __VA_ARGS__)
@@ -13,45 +14,44 @@
 
 #define POOST_LOG(...) POOST_LOG_EX(poost::log::global, __VA_ARGS__)
 
-#define POOST_TRACE_EX(settings, ...)                                          \
-    POOST_LOG_EX(settings, poost::LogLevel::Trace, __VA_ARGS__)
-#define POOST_DEBUG_EX(settings, ...)                                          \
-    POOST_LOG_EX(settings, poost::LogLevel::Debug, __VA_ARGS__)
-#define POOST_INFO_EX(settings, ...)                                           \
-    POOST_LOG_EX(settings, poost::LogLevel::Info, __VA_ARGS__)
-#define POOST_WARN_EX(settings, ...)                                           \
-    POOST_LOG_EX(settings, poost::LogLevel::Warn, __VA_ARGS__)
-#define POOST_ERROR_EX(settings, ...)                                          \
-    POOST_LOG_EX(settings, poost::LogLevel::Error, __VA_ARGS__)
-#define POOST_FATAL_EX(settings, ...)                                          \
-    POOST_LOG_EX(settings, poost::LogLevel::Fatal, __VA_ARGS__)
+#define POOST_TRACE_EX(settings, ...) POOST_LOG_EX(settings, poost::LogLevel::TRACE, __VA_ARGS__)
+#define POOST_DEBUG_EX(settings, ...) POOST_LOG_EX(settings, poost::LogLevel::DEBUG, __VA_ARGS__)
+#define POOST_INFO_EX(settings, ...) POOST_LOG_EX(settings, poost::LogLevel::INFO, __VA_ARGS__)
+#define POOST_WARN_EX(settings, ...) POOST_LOG_EX(settings, poost::LogLevel::WARN, __VA_ARGS__)
+#define POOST_ERROR_EX(settings, ...) POOST_LOG_EX(settings, poost::LogLevel::ERROR, __VA_ARGS__)
+#define POOST_FATAL_EX(settings, ...) POOST_LOG_EX(settings, poost::LogLevel::FATAL, __VA_ARGS__)
 
-#define POOST_LOG_EX(settings, level, ...)                                     \
-    do {                                                                       \
-        if ((level) >= (settings).log_level) {                                 \
-            poost::log_print((settings), (level), __VA_ARGS__);                \
-                                                                               \
-            if ((level) == poost::LogLevel::Fatal) {                           \
-                std::abort();                                                  \
-            }                                                                  \
-        }                                                                      \
+#ifndef __FILE_NAME__
+#define __FILE_NAME__ __FILE__
+#endif
+
+#define POOST_LOG_EX(settings, level, ...)                                               \
+    do {                                                                                 \
+        if ((level) >= (settings).log_level) {                                           \
+            poost::log_print((settings), (level), __FILE_NAME__, __LINE__, __FUNCTION__, \
+                             __VA_ARGS__);                                               \
+                                                                                         \
+            if ((level) == poost::LogLevel::FATAL) {                                     \
+                std::abort();                                                            \
+            }                                                                            \
+        }                                                                                \
     } while (false)
 
 namespace poost {
 
 enum class LogLevel {
-    All,
-    Trace,
-    Debug,
-    Info,
-    Warn,
-    Error,
-    Fatal,
-    None,
+    ALL,
+    TRACE,
+    DEBUG,
+    INFO,
+    WARN,
+    ERROR,
+    FATAL,
+    NONE,
 };
 
 struct LogSettings {
-    std::ostream *stream;
+    std::ostream* stream;
     LogLevel log_level;
     bool use_colors;
 };
@@ -60,26 +60,31 @@ namespace log {
 
 extern LogSettings global;
 
-} // namespace log
+}  // namespace log
 
-const char *log_level_label(LogLevel level);
-const char *log_level_color(LogLevel level);
+std::string_view log_level_label(LogLevel level);
+std::string_view log_level_color(LogLevel level);
 
 template <typename... Args>
-void log_print(const LogSettings &settings, LogLevel level,
-               fmt::format_string<Args...> format, Args &&...args) {
-
-    const char *label = log_level_label(level);
-
-    if (!settings.use_colors) {
-        *settings.stream << fmt::format("[{:<5}] ", label);
-    } else {
-        const char *color = log_level_color(level);
-        *settings.stream << fmt::format("{}[{:<5}]\x1b[0m ", color, label);
+void log_print(const LogSettings& settings,
+               LogLevel level,
+               std::string_view file,
+               int line,
+               std::string_view function,
+               fmt::format_string<Args...> format,
+               Args&&... args) {
+    if (settings.use_colors) {
+        *settings.stream << log_level_color(level);
     }
 
-    *settings.stream << fmt::format(format, std::forward<Args>(args)...)
-                     << "\n";
+    *settings.stream << fmt::format("[{:<5}] {}({}) {}:", log_level_label(level), file, line,
+                                    function);
+
+    if (settings.use_colors) {
+        *settings.stream << "\x1b[0m";
+    }
+
+    *settings.stream << " " << fmt::format(format, std::forward<Args>(args)...) << "\n";
 }
 
-} // namespace poost
+}  // namespace poost

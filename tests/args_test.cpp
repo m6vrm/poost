@@ -1,8 +1,9 @@
-#include <args.hpp>
 #include <doctest/doctest.h>
+#include <args.hpp>
+#include <string>
 
-TEST_CASE("args parsing") {
-    const char *argv[] = {"test", "-ab", "-c", "-d", "value", "-e", "42"};
+TEST_CASE("Args") {
+    const char* argv[] = {"test", "-ab", "-c", "-d", "value", "-e", "42"};
     const int argc = sizeof(argv) / sizeof(argv[0]);
 
     poost::Args args{argc, argv};
@@ -16,24 +17,24 @@ TEST_CASE("args parsing") {
     char opt;
     while ((opt = args.option()) != poost::args::end) {
         switch (opt) {
-        case 'a':
-            a = true;
-            break;
-        case 'b':
-            b = true;
-            break;
-        case 'c':
-            c = true;
-            break;
-        case 'd':
-            args.value(d);
-            break;
-        case 'e':
-            args.value(e);
-            break;
-        default:
-            FAIL("unknown option");
-            break;
+            case 'a':
+                a = true;
+                break;
+            case 'b':
+                b = true;
+                break;
+            case 'c':
+                c = true;
+                break;
+            case 'd':
+                args.value(d);
+                break;
+            case 'e':
+                args.value(e);
+                break;
+            default:
+                FAIL("unknown option");
+                break;
         }
     }
 
