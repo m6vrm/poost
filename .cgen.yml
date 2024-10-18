@@ -51,11 +51,13 @@ packages:
   - external: external/doctest
     if: PROJECT_IS_TOP_LEVEL
     url: https://github.com/doctest/doctest
+    strategy: clone
     options:
       DOCTEST_NO_INSTALL: ON
 
   - external: external/fmt
     url: https://github.com/fmtlib/fmt
+    strategy: clone
     options:
       FMT_INSTALL: OFF
 
